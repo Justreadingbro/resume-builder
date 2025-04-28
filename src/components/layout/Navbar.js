@@ -1,31 +1,13 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  IconButton,
-  Box,
-  useTheme,
-} from '@mui/material';
-import {
-  Brightness4,
-  Brightness7,
-  Description,
-} from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
-import { toggleTheme } from '../../store/themeSlice';
+import { AppBar, Toolbar, Typography, Button, Box, IconButton } from '@mui/material';
+import { Description } from '@mui/icons-material';
+import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/authSlice';
 
 const Navbar = () => {
+  const { isAuthenticated } = useSelector(state => state.auth);
   const dispatch = useDispatch();
-  const theme = useTheme();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
-  const handleThemeToggle = () => {
-    dispatch(toggleTheme());
-  };
 
   const handleLogout = () => {
     dispatch(logout());
@@ -39,30 +21,27 @@ const Navbar = () => {
           edge="start"
           color="inherit"
           component={RouterLink}
-          to="/"
+          to="/resume-builder"
           sx={{ mr: 2 }}
         >
           <Description />
         </IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" component={RouterLink} to="/resume-builder" sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}>
           Resume Builder
         </Typography>
 
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Button color="inherit" component={RouterLink} to="/about">
+          <Button color="inherit" component={RouterLink} to="/resume-builder/about">
             About
           </Button>
-          <Button color="inherit" component={RouterLink} to="/contact">
+          <Button color="inherit" component={RouterLink} to="/resume-builder/contact">
             Contact
           </Button>
 
           {isAuthenticated ? (
             <>
-              <Button color="inherit" component={RouterLink} to="/dashboard">
+              <Button color="inherit" component={RouterLink} to="/resume-builder/dashboard">
                 Dashboard
-              </Button>
-              <Button color="inherit" component={RouterLink} to="/build-resume">
-                Build Resume
               </Button>
               <Button color="inherit" onClick={handleLogout}>
                 Logout
@@ -70,18 +49,14 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <Button color="inherit" component={RouterLink} to="/login">
+              <Button color="inherit" component={RouterLink} to="/resume-builder/login">
                 Login
               </Button>
-              <Button color="inherit" component={RouterLink} to="/register">
+              <Button color="inherit" component={RouterLink} to="/resume-builder/register">
                 Register
               </Button>
             </>
           )}
-
-          <IconButton color="inherit" onClick={handleThemeToggle}>
-            {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
-          </IconButton>
         </Box>
       </Toolbar>
     </AppBar>

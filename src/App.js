@@ -33,7 +33,7 @@ const AppRoutes = () => {
         const result = await getRedirectResult(auth);
         if (result) {
           await dispatch(loginWithGoogle());
-          navigate('/dashboard');
+          navigate('/resume-builder/dashboard');
         }
       } catch (error) {
         console.error('Redirect error:', error);
@@ -45,19 +45,20 @@ const AppRoutes = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/contact" element={<Contact />} />
+      <Route path="/resume-builder" element={<Home />} />
+      <Route path="/resume-builder/login" element={<Login />} />
+      <Route path="/resume-builder/register" element={<Register />} />
+      <Route path="/resume-builder/about" element={<About />} />
+      <Route path="/resume-builder/contact" element={<Contact />} />
       <Route
-        path="/dashboard"
+        path="/resume-builder/dashboard"
         element={<PrivateRoute component={Dashboard} />}
       />
       <Route
-        path="/build-resume"
+        path="/resume-builder/build-resume"
         element={<PrivateRoute component={ResumeBuilder} />}
       />
+      <Route path="*" element={<Home />} />
     </Routes>
   );
 };
@@ -83,7 +84,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
+      <Router basename="/resume-builder">
         <div className="App">
           <Navbar />
           <AppRoutes />
